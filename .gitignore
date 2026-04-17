@@ -1,0 +1,15 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+.env
+
+# Data files
+*.csv
+*.xlsx
+
+# Mac/Windows system files
+.DS_Store
+Thumbs.db
