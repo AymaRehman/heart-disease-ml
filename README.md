@@ -41,13 +41,13 @@ heart-disease-ml/
 
 ### 1. Clone the repository and set up the environment:
 
-```
+```bash
 git clone https://github.com/AymaRehman/heart-disease-ml.git
 cd heart-disease-ml
 ```
 
 ### 2. Create and activate the virtual environment
-```
+```bash
 python3 -m venv venv
 source venv/bin/activate  # On Windows use: venv\Scripts\activate
 ```
@@ -55,7 +55,7 @@ On Windows: venv\Scripts\activate
 
 ### 3. Install dependencies
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
@@ -64,7 +64,7 @@ Download the dataset from Kaggle and place it in the data/ folder locally on you
 [UC Irvine Heart Disease Dataset on Kaggle](https://www.kaggle.com/datasets/ritwikb3/heart-disease-cleveland?resource=download)
 
 ### 5. Run the analysis:
-```
+```bash
 python main.py
 ```
 
@@ -75,7 +75,7 @@ Setup (do only once after cloning):
 `git checkout -b branch-name`
 
 Syncing: 
-```
+```bash
 1. git checkout main
 2. git pull
 3. git checkout your-branch
