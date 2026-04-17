@@ -58,10 +58,11 @@ On Windows: venv\Scripts\activate
 ```bash
 pip install -r requirements.txt
 ```
-
-### 4. Download the dataset
-Download the dataset from Kaggle and place it in the data/ folder locally on your computer  
-[UC Irvine Heart Disease Dataset on Kaggle](https://www.kaggle.com/datasets/ritwikb3/heart-disease-cleveland?resource=download)
+### 4. Download the Dataset
+Download the dataset from Kaggle and place it in the `data/` folder locally on your computer:  
+[Heart Disease Dataset on Kaggle](https://www.kaggle.com/datasets/ritwikb3/heart-disease-cleveland?resource=download)
+> **Note:** We are using the Kaggle version as it is pre-formatted for Python.   
+> **Original Source:** [UCI Machine Learning Repository - Heart Disease](https://archive.ics.uci.edu/dataset/45/heart+disease)
 
 ### 5. Run the analysis:
 ```bash
