@@ -11,6 +11,23 @@ from sklearn.preprocessing import LabelEncoder
 # oldpeak(st depression induced by exercise), slope(the slope of the peak exercise ST segment),
 # ca(number of major vessels), thal(thalassemia), target(presence of heart disease)
 
+# Final cleaned dataset (10 features + target):
+# age, sex, cp, trestbps, chol, thalach, exang, oldpeak, ca, thal, target
+
+# Removed features (justified by correlation analysis run on clean data,
+# after duplicates and outliers have been removed):
+#   fbs      - binary (0/1), weakest absolute correlation with target (|r| = 0.026)
+#   restecg  - categorical (0/1/2), low predictive correlation with target (|r| = 0.183)
+#   slope    - weaker absolute correlation with target than oldpeak
+#              (slope |r| = 0.321 < oldpeak |r| = 0.429); oldpeak retained
+#              as it is continuous and carries stronger predictive signal.
+#              Pairwise collinearity check also run (threshold |r| > 0.70):
+#              slope <-> oldpeak r = 0.527, below threshold — collinearity
+#              not the reason for removal.
+#              Threshold source: Collinearity: A review of methods to deal with it and a simulation study evaluating their performance
+#              Link to Article: https://www.researchgate.net/publication/224040384_Collinearity_A_review_of_methods_to_deal_with_it_and_a_simulation_study_evaluating_their_performance
+
+
 df = pd.read_csv("data/heart.csv")
 
 # Confirm dataset is in a workable format (.csv)
