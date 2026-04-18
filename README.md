@@ -5,12 +5,13 @@ A machine learning project for the "Fundamentals of Artificial Intelligence" cou
 Built with Python (Scikit-Learn, Pandas, Seaborn)
 
 ## Team members
-| Name | Role |
-| :--- | :--- |
-| Ayma Rehman | |
-| Dhanusha Udhayakumar |  |
-| Nandana Subhash |  |
-| Rashid |  |
+
+| Name | Responsibilities | Files | Issues |
+| :--- | :--- | :--- | :--- |
+| **Ayma Rehman** | Data Preprocessing, ANN Implementation | `src/preprocessing.py`, `src/ann_classification.py`, `main.py` | #1, #4 |
+| **Dhanusha Udhayakumar** | EDA and Statistical Visualizations | `notebooks/exploration.ipynb` | #2 |
+| **Nandana Subhash** | Hierarchical Clustering Analysis | `src/hierarchical_clustering.py` | #3 |
+| **Rashid** | K-Means Clustering and Model Comparison | `src/classification.py`, `src/Kmeans_clustering.py` | #5, #6 |
 
 ## Project Objectives
 * **Preprocessing:** Handle missing values, outliers, and feature scaling.
