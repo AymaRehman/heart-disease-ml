@@ -178,3 +178,92 @@ print()
 
 selected_columns = [c for c in df.columns if c not in features_to_drop]
 df = df[selected_columns]
+
+# Check for correlated features in final set
+# and drop the weaker of any strongly correlated pair
+print("=== Correlated Features in Final Feature Set ===")
+final_corr = df[continuous_features].corr().abs()
+print("Full correlation matrix (continuous features):")
+print(final_corr.round(3).to_string())
+print()
+
+cols_to_drop = set()
+print(f"Pairs with |r| > {CORRELATION_THRESHOLD}:")
+found = False
+for i in range(len(final_corr.columns)):
+    for j in range(i + 1, len(final_corr.columns)):
+        val = final_corr.iloc[i, j]
+        if val > CORRELATION_THRESHOLD:
+            f1, f2 = final_corr.columns[i], final_corr.columns[j]
+            weaker = f1 if target_corr.get(f1, 0) < target_corr.get(f2, 0) else f2
+            print(
+                f"  {f1} <-> {f2}: r = {val:.3f}. Dropping weaker feature: '{weaker}'"
+            )
+            cols_to_drop.add(weaker)
+            found = True
+if not found:
+    print("No strongly correlated pairs found. No action needed.")
+if cols_to_drop:
+    df = df.drop(columns=list(cols_to_drop))
+    continuous_features = [f for f in continuous_features if f not in cols_to_drop]
+    print(f"Dropped: {list(cols_to_drop)}")
+print()
+
+# "The number of data features (attributes) should be between 7 and 12."
+feature_count = len([c for c in df.columns if c != "target"])
+assert 7 <= feature_count <= 12, (
+    f"Feature count {feature_count} is outside the required 7–12 range. "
+    "Review which features are being dropped."
+)
+
+# Check whether normalisation is necessary
+# "It is necessary to check whether data normalisation is necessary"
+# I am checking here to justify the need for normalisation and to document
+# the scale differences for the Part I report.
+# The actual normalisation will be done downstream in the classification and
+# clustering scripts, after the train/test split, to avoid data leakage.
+print("=== Normalisation Check ===")
+print("Value ranges of continuous features:\n")
+range_summary = df[continuous_features].agg(["min", "max", "median", "mean", "std"])
+print(range_summary.round(3).to_string())
+print()
+
+ranges = df[continuous_features].max() - df[continuous_features].min()
+scale_ratio = ranges.max() / ranges.min()
+if scale_ratio > 10:
+    print(
+        f"Feature ranges differ by a factor of {scale_ratio:.1f}x.\n"
+        "Normalisation is required. Features are on significantly different scales.\n"
+        "Min-max scaling will be applied in classification.py and clustering scripts\n"
+        "after the train/test split, fitted on training data only."
+    )
+else:
+    print(
+        f"Feature ranges differ by a factor of {scale_ratio:.1f}x.\n"
+        "Normalisation is not strictly required but will still be applied downstream\n"
+        "for consistency across KMeans and ANN, which are sensitive to feature scale."
+    )
+print()
+
+# Class balance report (information for Part I report)
+print("=== Class Balance (after cleaning) ===")
+class_counts = df["target"].value_counts().sort_index()
+class_percents = df["target"].value_counts(normalize=True).sort_index() * 100
+for label in class_counts.index:
+    meaning = "No disease" if label == 0 else "Disease present"
+    print(
+        f"  Class {label} ({meaning}): {class_counts[label]} objects ({class_percents[label]:.1f}%)"
+    )
+print()
+
+# Save cleaned dataset
+df.to_csv("data/heart_cleaned.csv", index=False)
+
+print("Preprocessing complete.")
+print(f"Final row count:      {len(df)}")
+print(f"Features retained:    {list(df.columns[:-1])}")
+print(f"Feature count:        {feature_count}")
+print(f"Continuous features (normalized downstream): {continuous_features}")
+print(
+    f"Categorical/ordinal features (not normalized): {[c for c in df.columns[:-1] if c not in continuous_features]}"
+)
