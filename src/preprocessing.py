@@ -96,3 +96,85 @@ for feature in continuous_features:
     upper_bound = Q3 + 1.5 * IQR
     df = df[(df[feature] >= lower_bound) & (df[feature] <= upper_bound)]
 print(f"Rows removed: {rows_before - len(df)}. Remaining: {len(df)}\n")
+
+# Feature selection via correlation analysis
+# Run after duplicates and outliers have been removed so that Pearson r
+# values are not distorted by raw data.
+# "if the dataset contains correlated features...the student team
+# must find a way to deal with these problems"
+print("=== Feature Removal Justification ===")
+
+target_corr = (
+    df.drop(columns=["target"])
+    .corrwith(df["target"])
+    .abs()
+    .sort_values(ascending=False)
+)
+print("Absolute Pearson correlation with target (all 13 features, descending):")
+print(target_corr.round(3).to_string())
+
+feature_cols = [c for c in df.columns if c != "target"]
+pairwise_corr = df[feature_cols].corr().abs()
+
+CORRELATION_THRESHOLD = 0.70
+print(f"\nFeature pairs with |r| > {CORRELATION_THRESHOLD} (redundancy check):")
+flagged = False
+for i in range(len(pairwise_corr.columns)):
+    for j in range(i + 1, len(pairwise_corr.columns)):
+        val = pairwise_corr.iloc[i, j]
+        if val > CORRELATION_THRESHOLD:
+            f1, f2 = pairwise_corr.columns[i], pairwise_corr.columns[j]
+            print(f"  {f1} <-> {f2}: r = {val:.3f}")
+            flagged = True
+if not flagged:
+    print("None found above threshold.")
+
+slope_oldpeak_r = (
+    pairwise_corr.loc["slope", "oldpeak"]
+    if "slope" in pairwise_corr.columns and "oldpeak" in pairwise_corr.columns
+    else None
+)
+if slope_oldpeak_r is not None:
+    print(f"\n  slope <-> oldpeak: r = {slope_oldpeak_r:.3f}")
+    if slope_oldpeak_r <= CORRELATION_THRESHOLD:
+        print(
+            f"  NOTE: slope <-> oldpeak r = {slope_oldpeak_r:.3f} is below the {CORRELATION_THRESHOLD} threshold."
+        )
+
+features_to_drop = ["fbs", "restecg"]
+
+print("\nJustification for dropping features:")
+for col in ["fbs", "restecg"]:
+    print(
+        f"  {col}: Dropped due to weak absolute correlation with target (|r|={target_corr.get(col, 0):.3f})."
+    )
+
+if slope_oldpeak_r is not None and slope_oldpeak_r > CORRELATION_THRESHOLD:
+    features_to_drop.append("slope")
+    print(
+        f"\nDropping slope: collinear with oldpeak (r = {slope_oldpeak_r:.3f} > {CORRELATION_THRESHOLD})"
+    )
+else:
+    # Fall back to target-correlation justification
+    slope_r = target_corr.get("slope", float("nan"))
+    oldpeak_r = target_corr.get("oldpeak", float("nan"))
+    if slope_r < oldpeak_r:
+        features_to_drop.append("slope")
+        print(
+            f"\nDropping slope: weaker target correlation than oldpeak "
+            f"(slope |r|={slope_r:.3f} < oldpeak |r|={oldpeak_r:.3f})"
+        )
+    else:
+        print(
+            "\nNOTE: slope NOT dropped. Collinearity is below threshold "
+            "and target correlation is not weaker than oldpeak. Please review feature selection."
+        )
+
+print("\nFeatures to drop:")
+for col in features_to_drop:
+    print(f"  {col}: |r with target| = {target_corr.get(col, float('nan')):.3f}")
+print()
+
+
+selected_columns = [c for c in df.columns if c not in features_to_drop]
+df = df[selected_columns]
