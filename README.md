@@ -21,18 +21,20 @@ Built with Python (Scikit-Learn, Pandas, Seaborn)
 ```text
 heart-disease-ml/
 ├── data/
-│   └── heart.csv            # UCI Cleveland Dataset
+│   └── heart.csv                   # UCI Cleveland Dataset
 ├── notebooks/
-│   └── exploration.ipynb    # Initial EDA and visualizations
+│   └── exploration.ipynb           # Initial EDA and visualizations
 ├── src/
-│   ├── preprocessing.py     # Cleaning, outliers, and scaling
-│   ├── clustering.py        # Hierarchical and K-Means logic
-│   └── classification.py    # ANN and other supervised models
+│   ├── preprocessing.py            # Cleaning, outliers, and scaling
+│   ├── Kmeans_clustering.py        # K-Means logic
+│   ├── hierarchical_clustering.py  # Hierarchical logic
+│   ├── ann_classification.py       # ANN implementation
+│   └── classification.py           # Comparison of supervised models
 ├── tests/
-│   └── test_data.py         # Validation for data shapes/types
+│   └── test_data.py                # Validation for data shapes/types
 ├── README.md
 ├── requirements.txt
-└── main.py                  # Entry point to run the full pipeline
+└── main.py                         # Entry point to run the full pipeline
 ```
 
 ## To set up on your end
