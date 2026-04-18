@@ -67,7 +67,12 @@ Download the dataset from Kaggle and place it in the `data/` folder locally on y
 > **Note:** We are using the Kaggle version as it is pre-formatted for Python.   
 > **Original Source:** [UCI Machine Learning Repository - Heart Disease](https://archive.ics.uci.edu/dataset/45/heart+disease)
 
-### 5. Run the analysis:
+### 5. Run the preprocessing:
+```bash
+python src/preprocessing.py
+```
+
+### 6. Run the main analysis:
 ```bash
 python main.py
 ```
