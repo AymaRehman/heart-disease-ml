@@ -75,3 +75,31 @@ X_test_scaled = X_test.copy()
 
 X_train_scaled[continuous_features] = scaler.fit_transform(X_train[continuous_features])
 X_test_scaled[continuous_features] = scaler.transform(X_test[continuous_features])
+
+
+# "Perform at least 3 experiments with each algorithm using the
+# training dataset, changing the values of the algorithm hyperparameters and
+# analysing the performance metrics of the algorithms."
+
+# Each experiment has 1 clear, isolated purpose:
+
+#   Experiment 1 : Baseline (small shallow network)
+#   One hidden layer of 32 neurons, alpha=0.0001 (minimal regularisation).
+#   Establishes a lower-bound reference for a simple ANN on this dataset.
+
+#   Experiment 2 : Effect of stronger regularisation
+#   Same architecture as Exp. 1, but alpha raised from 0.0001 to 0.1.
+#   Tests whether heavily penalising large weights improves generalisation
+#   on this small dataset.
+
+#   Experiment 3 : Effect of added depth
+#   Two hidden layers (64, 32), alpha=0.01 (moderate regularisation).
+#   Tests whether depth helps the model learn more complex non-linear
+#   interactions compared to the shallow baseline.
+
+# Shared across all 3:
+# solver=adam, learning_rate_init=0.001, max_iter=3000, random_state=42.
+
+# "Hyperparameter values used in the experiments with each of the
+# algorithms (in a table format) and screenshots showing these values and the
+# performance metrics of the experiments."
