@@ -103,3 +103,21 @@ X_test_scaled[continuous_features] = scaler.transform(X_test[continuous_features
 # "Hyperparameter values used in the experiments with each of the
 # algorithms (in a table format) and screenshots showing these values and the
 # performance metrics of the experiments."
+
+experiments = [
+    {
+        "name": "Experiment 1",
+        "purpose": "Baseline — shallow network (32 neurons), minimal regularisation",
+        "params": dict(),
+    },
+    {
+        "name": "Experiment 2",
+        "purpose": "Strong regularisation — same architecture, alpha raised to 0.1",
+        "params": dict(),
+    },
+    {
+        "name": "Experiment 3",
+        "purpose": "Deeper network — two hidden layers (64, 32), moderate regularisation",
+        "params": dict(),
+    },
+]
