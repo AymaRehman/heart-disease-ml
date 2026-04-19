@@ -108,16 +108,40 @@ experiments = [
     {
         "name": "Experiment 1",
         "purpose": "Baseline — shallow network (32 neurons), minimal regularisation",
-        "params": dict(),
+        "params": dict(
+            hidden_layer_sizes=(32,),
+            activation="relu",
+            solver="adam",
+            alpha=0.0001,
+            learning_rate_init=0.001,
+            max_iter=3000,
+            random_state=42,
+        ),
     },
     {
         "name": "Experiment 2",
         "purpose": "Strong regularisation — same architecture, alpha raised to 0.1",
-        "params": dict(),
+        "params": dict(
+            hidden_layer_sizes=(32,),
+            activation="relu",
+            solver="adam",
+            alpha=0.1,
+            learning_rate_init=0.001,
+            max_iter=3000,
+            random_state=42,
+        ),
     },
     {
         "name": "Experiment 3",
         "purpose": "Deeper network — two hidden layers (64, 32), moderate regularisation",
-        "params": dict(),
+        "params": dict(
+            hidden_layer_sizes=(64, 32),
+            activation="relu",
+            solver="adam",
+            alpha=0.01,
+            learning_rate_init=0.001,
+            max_iter=3000,
+            random_state=42,
+        ),
     },
 ]
