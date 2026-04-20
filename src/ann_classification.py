@@ -224,3 +224,21 @@ print("Selection criterion : highest mean CV accuracy")
 print(f"Best CV accuracy    : {best_result['CV Acc (mean)']:.4f}")
 print(f"Hyperparameters     : {best_params}")
 print()
+
+# "Conclusions on the performance of the models in the experiments
+# performed, clearly identifying the model that will be used for testing."
+print("=== Conclusions from Training Experiments ===")
+for r in results:
+    gap = round(r["Train Accuracy"] - r["CV Acc (mean)"], 4)
+    print(
+        f"  {r['Experiment']}: CV Acc = {r['CV Acc (mean)']:.4f} ± {r['CV Acc (std)']:.4f} | "
+        f"Train Acc = {r['Train Accuracy']:.4f} | Train-CV gap = {gap:.4f} | "
+        f"Train F1 = {r['Train F1']:.4f}"
+    )
+print(
+    f"\n  {best_exp_name} is selected for testing: it achieved the highest mean "
+    f"CV accuracy, indicating the best generalisation to unseen folds. "
+    f"The Train-CV gap column above shows how much each model overfit its training data — "
+    f"a smaller gap with a higher CV accuracy is the ideal combination."
+)
+print()
