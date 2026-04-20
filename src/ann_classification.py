@@ -193,3 +193,12 @@ for exp in experiments:
         **{f"Train {k}": v for k, v in train_metrics.items()},
     }
     results.append(result_row)
+
+    print(f"\n=== {name} : {exp['purpose']} ===")
+    print("Hyperparameters:")
+    for k, v in params.items():
+        print(f"  {k:25s}: {v}")
+    print(f"\nCV accuracy (5-fold) : {cv_scores.mean():.4f} ± {cv_scores.std():.4f}")
+    print("Training-set metrics :")
+    for k, v in train_metrics.items():
+        print(f"  {k:12s}: {v:.4f}")
