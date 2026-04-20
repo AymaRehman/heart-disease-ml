@@ -156,3 +156,11 @@ def evaluate_model(model, X, y):
         "Recall": round(recall_score(y, y_pred, zero_division=0), 4),
         "F1": round(f1_score(y, y_pred, zero_division=0), 4),
     }
+
+
+print("=" * 70)
+print("PART III - ANN EXPERIMENTS (training data, 5-fold cross-validation)")
+print("=" * 70)
+
+results = []
+trained_models = {}
