@@ -275,3 +275,14 @@ print(
         target_names=["No disease (0)", "Disease present (1)"],
     )
 )
+
+# "Evaluate and compare the performance of the trained models."
+# Cross-algorithm comparison (ANN vs the two other classifiers) is in classification.py.
+print("=== Interpretation ===")
+print(
+    f"The best ANN model ({best_exp_name}) achieved a test accuracy of "
+    f"{test_metrics['Accuracy']:.4f} and F1-score of {test_metrics['F1']:.4f} "
+    f"on the held-out test set.\n"
+    f"These results will be compared against the two other classifiers "
+    f"in classification.py."
+)
