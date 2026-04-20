@@ -164,3 +164,32 @@ print("=" * 70)
 
 results = []
 trained_models = {}
+
+for exp in experiments:
+    name = exp["name"]
+    params = exp["params"]
+
+    model = MLPClassifier(**params)
+
+    # Cross-validation on training set only — test set not touched here
+    cv_scores = cross_val_score(
+        model, X_train_scaled, y_train, cv=5, scoring="accuracy"
+    )
+
+    # Fit on full training set to get train-set metrics for the report table
+    model.fit(X_train_scaled, y_train)
+    train_metrics = evaluate_model(model, X_train_scaled, y_train)
+    trained_models[name] = model
+
+    result_row = {
+        "Experiment": name,
+        "hidden_layer_sizes": str(params["hidden_layer_sizes"]),
+        "activation": params["activation"],
+        "alpha": params["alpha"],
+        "learning_rate_init": params["learning_rate_init"],
+        "max_iter": params["max_iter"],
+        "CV Acc (mean)": round(cv_scores.mean(), 4),
+        "CV Acc (std)": round(cv_scores.std(), 4),
+        **{f"Train {k}": v for k, v in train_metrics.items()},
+    }
+    results.append(result_row)
