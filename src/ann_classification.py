@@ -242,3 +242,36 @@ print(
     f"a smaller gap with a higher CV accuracy is the ideal combination."
 )
 print()
+
+# "Apply the trained model for each algorithm to the test dataset."
+# "Results of the testing of the trained models and a comparison and
+# interpretation of their performance, clearly separated from the training experiments."
+
+print("=" * 70)
+print(f"TESTING RESULTS — {best_exp_name} applied to held-out test set")
+print("=" * 70)
+
+test_metrics = evaluate_model(best_model, X_test_scaled, y_test)
+y_pred_test = best_model.predict(X_test_scaled)
+
+print("\nTest-set performance metrics:")
+for k, v in test_metrics.items():
+    print(f"  {k:12s}: {v:.4f}")
+
+print("\nConfusion Matrix (rows = actual, cols = predicted):")
+cm = confusion_matrix(y_test, y_pred_test)
+cm_df = pd.DataFrame(
+    cm,
+    index=["Actual: No disease", "Actual: Disease"],
+    columns=["Predicted: No disease", "Predicted: Disease"],
+)
+print(cm_df.to_string())
+
+print("\nFull Classification Report:")
+print(
+    classification_report(
+        y_test,
+        y_pred_test,
+        target_names=["No disease (0)", "Disease present (1)"],
+    )
+)
