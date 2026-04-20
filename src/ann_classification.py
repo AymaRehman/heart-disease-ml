@@ -1,4 +1,7 @@
+import warnings
+
 import pandas as pd
+from sklearn.exceptions import ConvergenceWarning
 from sklearn.metrics import (
     accuracy_score,
     classification_report,
@@ -20,6 +23,8 @@ from sklearn.preprocessing import MinMaxScaler
 # algorithms to the previously analysed dataset and features of data objects selected
 # in Part I of the assignment."
 # Input: heart_cleaned.csv produced by preprocessing.py (features selected in Part I).
+
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 df = pd.read_csv("data/heart_cleaned.csv")
 
