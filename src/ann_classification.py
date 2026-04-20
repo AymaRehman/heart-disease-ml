@@ -202,3 +202,25 @@ for exp in experiments:
     print("Training-set metrics :")
     for k, v in train_metrics.items():
         print(f"  {k:12s}: {v:.4f}")
+
+
+# Summary table (need to screenshot this for the report)
+print("\n\n=== EXPERIMENT SUMMARY TABLE ===")
+summary_df = pd.DataFrame(results)
+print(summary_df.to_string(index=False))
+print()
+
+# "For each algorithm, select the trained model that provides
+# the best algorithm performance."
+# Criterion: highest mean CV accuracy reflects generalisation, not just training fit.
+
+best_result = max(results, key=lambda r: r["CV Acc (mean)"])
+best_exp_name = best_result["Experiment"]
+best_model = trained_models[best_exp_name]
+best_params = next(e["params"] for e in experiments if e["name"] == best_exp_name)
+
+print(f"=== Best Model Selected: {best_exp_name} ===")
+print("Selection criterion : highest mean CV accuracy")
+print(f"Best CV accuracy    : {best_result['CV Acc (mean)']:.4f}")
+print(f"Hyperparameters     : {best_params}")
+print()
