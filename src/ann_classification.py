@@ -145,3 +145,14 @@ experiments = [
         ),
     },
 ]
+
+
+def evaluate_model(model, X, y):
+    """Return a dict of key classification metrics."""
+    y_pred = model.predict(X)
+    return {
+        "Accuracy": round(accuracy_score(y, y_pred), 4),
+        "Precision": round(precision_score(y, y_pred, zero_division=0), 4),
+        "Recall": round(recall_score(y, y_pred, zero_division=0), 4),
+        "F1": round(f1_score(y, y_pred, zero_division=0), 4),
+    }
