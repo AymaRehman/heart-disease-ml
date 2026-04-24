@@ -82,20 +82,30 @@ python main.py
 ## Git Workflow
 Each team member works on their own branch and merges to `main`.
 
-Setup (do only once after cloning): 
+#### Initial Setup (do only once after cloning):   
 `git checkout -b branch-name`
 
-Syncing: 
+#### Syncing (Update your branch with the latest `main`): 
 ```bash
 1. git checkout main
 2. git pull
-3. git checkout your-branch
+3. git checkout your-branch-name
 4. git merge main
 ```
+#### Saving & Submitting Work
+```bash
+1. git add .
+2. git commit -m "Your commit message"
+3. git push origin your-branch-name 
+```
+
+> After pushing changes to your branch, go to:  
+> [Repository on GitHub](https://github.com/AymaRehman/heart-disease-ml), click "Compare & pull request", and submit your changes for review.
+
 
 ## Note: 
 - Keep in mind, every time you come back to work on this project, you need to reactivate the venv first: source venv/bin/activate 
 
 - Never push directly to the `main` branch - always push to your own branch, as simultaneous pushes can cause conflicts.
 
-
+- Ensure your branch is always up to date with `main`.
