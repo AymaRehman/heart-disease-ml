@@ -11,7 +11,9 @@ Built with Python (Scikit-Learn, Pandas, Seaborn)
 | **Ayma Rehman** | Data Preprocessing, ANN Implementation | `src/preprocessing.py`, `src/ann_classification.py`, `main.py` | `#1`, `#4` |
 | **Dhanusha Udhayakumar** | EDA and Statistical Visualizations | `notebooks/exploration.ipynb` | `#2` |
 | **Nandana Subhash** | Hierarchical Clustering Analysis | `src/hierarchical_clustering.py` | `#3` |
-| **Rashid** | K-Means Clustering and Model Comparison | `src/classification.py`, `src/Kmeans_clustering.py` | `#5`, `#6` |
+| **Rashid** | Model Comparison | `src/classification.py` | `#5` |
+| **Ruslan Mishura** | K-Means Clustering | `src/Kmeans_clustering.py` | `#6` |
+
 
 ## Project Objectives
 * **Preprocessing:** Handle missing values, outliers, and feature scaling.
@@ -80,20 +82,30 @@ python main.py
 ## Git Workflow
 Each team member works on their own branch and merges to `main`.
 
-Setup (do only once after cloning): 
+#### Initial Setup (do only once after cloning):   
 `git checkout -b branch-name`
 
-Syncing: 
+#### Syncing (Update your branch with the latest `main`): 
 ```bash
 1. git checkout main
 2. git pull
-3. git checkout your-branch
+3. git checkout your-branch-name
 4. git merge main
 ```
+#### Saving & Submitting Work
+```bash
+1. git add .
+2. git commit -m "Your commit message"
+3. git push origin your-branch-name 
+```
+
+> After pushing changes to your branch, go to:  
+> [Repository on GitHub](https://github.com/AymaRehman/heart-disease-ml), click "Compare & pull request", and submit your changes for review.
+
 
 ## Note: 
 - Keep in mind, every time you come back to work on this project, you need to reactivate the venv first: source venv/bin/activate 
 
 - Never push directly to the `main` branch - always push to your own branch, as simultaneous pushes can cause conflicts.
 
-
+- Ensure your branch is always up to date with `main`.
