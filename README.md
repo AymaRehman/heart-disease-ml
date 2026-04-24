@@ -20,6 +20,14 @@ Built with Python (Scikit-Learn, Pandas, Seaborn)
 * **Unsupervised Learning:** Use Hierarchical Clustering and K-Means to identify natural groupings in patient data.
 * **Supervised Learning:** Train an Artificial Neural Network (ANN) and two other classifiers to predict diagnosis.
 
+## Tech Stack
+
+| Library | Purpose |
+| :--- | :--- |
+| **pandas** | Data loading, cleaning, duplicate removal, and structured output tables |
+| **numpy** | Numerical operations and IQR-based outlier detection |
+| **scikit-learn** | Preprocessing, ANN implementation, and model evaluation |
+
 ## Project Structure
 ```text
 heart-disease-ml/
