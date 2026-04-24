@@ -11,7 +11,9 @@ Built with Python (Scikit-Learn, Pandas, Seaborn)
 | **Ayma Rehman** | Data Preprocessing, ANN Implementation | `src/preprocessing.py`, `src/ann_classification.py`, `main.py` | `#1`, `#4` |
 | **Dhanusha Udhayakumar** | EDA and Statistical Visualizations | `notebooks/exploration.ipynb` | `#2` |
 | **Nandana Subhash** | Hierarchical Clustering Analysis | `src/hierarchical_clustering.py` | `#3` |
-| **Rashid** | K-Means Clustering and Model Comparison | `src/classification.py`, `src/Kmeans_clustering.py` | `#5`, `#6` |
+| **Rashid** | Model Comparison | `src/classification.py` | `#5` |
+| **Ruslan Mishura** | K-Means Clustering | `src/Kmeans_clustering.py` | `#6` |
+
 
 ## Project Objectives
 * **Preprocessing:** Handle missing values, outliers, and feature scaling.
