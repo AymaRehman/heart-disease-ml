@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, adjusted_rand_score
@@ -35,41 +36,28 @@ for feature in continuous_features:
 print()
 
 
-experiments = [
-    {
-        "name": "Experiment 1",
-        "purpose": "Baseline clustering with k=2, matching the binary target structure",
-        "params": dict(
-            n_clusters=2,
-            init="k-means++",
-            n_init=10,
-            max_iter=300,
-            random_state=42,
-        ),
-    },
-    {
-        "name": "Experiment 2",
-        "purpose": "Testing k=3 to check whether three natural groups exist",
-        "params": dict(
-            n_clusters=3,
-            init="k-means++",
-            n_init=10,
-            max_iter=300,
-            random_state=42,
-        ),
-    },
-    {
-        "name": "Experiment 3",
-        "purpose": "Testing k=4 to check whether more detailed grouping improves clustering quality",
-        "params": dict(
-            n_clusters=4,
-            init="k-means++",
-            n_init=10,
-            max_iter=300,
-            random_state=42,
-        ),
-    },
-]
+# At least 5 different values of k are tested.
+# k=2 is important because the target variable is binary.
+# Higher k values are tested to check whether the dataset has more natural groups.
+
+k_values = [2, 3, 4, 5, 6]
+
+experiments = []
+
+for i, k in enumerate(k_values, start=1):
+    experiments.append(
+        {
+            "name": f"Experiment {i}",
+            "purpose": f"Testing K-means clustering with k={k}",
+            "params": dict(
+                n_clusters=k,
+                init="k-means++",
+                n_init=10,
+                max_iter=300,
+                random_state=42,
+            ),
+        }
+    )
 
 
 print("=" * 70)
@@ -107,8 +95,8 @@ for exp in experiments:
 
     print(f"\n=== {name}: {exp['purpose']} ===")
     print("Hyperparameters:")
-    for k, v in params.items():
-        print(f"  {k:15s}: {v}")
+    for param_name, value in params.items():
+        print(f"  {param_name:15s}: {value}")
 
     print("\nClustering metrics:")
     print(f"  Inertia             : {inertia:.4f}")
@@ -127,6 +115,25 @@ for exp in experiments:
 print("\n\n=== EXPERIMENT SUMMARY TABLE ===")
 summary_df = pd.DataFrame(results)
 print(summary_df.to_string(index=False))
+print()
+
+
+# Plot Silhouette Score for each value of k.
+plt.figure(figsize=(8, 5))
+plt.plot(
+    summary_df["n_clusters"],
+    summary_df["Silhouette Score"],
+    marker="o"
+)
+plt.title("Silhouette Score for Different K Values")
+plt.xlabel("Number of clusters (k)")
+plt.ylabel("Silhouette Score")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("kmeans_silhouette_scores.png", dpi=300)
+plt.show()
+
+print("Silhouette plot saved as: kmeans_silhouette_scores.png")
 print()
 
 
