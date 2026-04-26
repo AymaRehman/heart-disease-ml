@@ -40,8 +40,6 @@ heart-disease-ml/
 │   ├── hierarchical_clustering.py  # Hierarchical logic
 │   ├── ann_classification.py       # ANN implementation
 │   └── classification.py           # Comparison of supervised models
-├── tests/
-│   └── test_data.py                # Validation for data shapes/types
 ├── README.md
 ├── requirements.txt
 └── main.py                         # Entry point to run the full pipeline
