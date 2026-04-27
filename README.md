@@ -11,14 +11,20 @@ Built with Python (Scikit-Learn, Pandas, Seaborn)
 | **Ayma Rehman** | Data Preprocessing, ANN Implementation | `src/preprocessing.py`, `src/ann_classification.py`, `main.py` | `#1`, `#4` |
 | **Dhanusha Udhayakumar** | EDA and Statistical Visualizations | `notebooks/exploration.ipynb` | `#2` |
 | **Nandana Subhash** | Hierarchical Clustering Analysis | `src/hierarchical_clustering.py` | `#3` |
-| **Rashid** | Model Comparison | `src/classification.py` | `#5` |
-| **Ruslan Mishura** | K-Means Clustering | `src/Kmeans_clustering.py` | `#6` |
+| **Ruslan Mishura** | K-Means Clustering, Model Comparison | `src/Kmeans_clustering.py`, `src/classification.py` | `#5`, `#6` |
 
 
 ## Project Objectives
 * **Preprocessing:** Handle missing values, outliers, and feature scaling.
 * **Unsupervised Learning:** Use Hierarchical Clustering and K-Means to identify natural groupings in patient data.
 * **Supervised Learning:** Train an Artificial Neural Network (ANN) and two other classifiers to predict diagnosis.
+
+## Tech Stack
+
+| Library | Purpose |
+| :--- | :--- |
+| **pandas** | Data loading, cleaning, duplicate removal, and structured output tables |
+| **scikit-learn** | Preprocessing, ANN implementation, and model evaluation |
 
 ## Project Structure
 ```text
@@ -33,8 +39,6 @@ heart-disease-ml/
 │   ├── hierarchical_clustering.py  # Hierarchical logic
 │   ├── ann_classification.py       # ANN implementation
 │   └── classification.py           # Comparison of supervised models
-├── tests/
-│   └── test_data.py                # Validation for data shapes/types
 ├── README.md
 ├── requirements.txt
 └── main.py                         # Entry point to run the full pipeline
