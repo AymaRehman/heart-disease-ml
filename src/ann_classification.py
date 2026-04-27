@@ -58,7 +58,7 @@ print(f"Test set     : {len(X_test)} objects  ({len(X_test) / total * 100:.1f}%)
 print()
 
 for split_name, y_split in [("Training", y_train), ("Test", y_test)]:
-    print(f"{split_name} set — class breakdown:")
+    print(f"{split_name} set - class breakdown:")
     counts = y_split.value_counts().sort_index()
     for label, count in counts.items():
         meaning = "No disease" if label == 0 else "Disease present"
@@ -112,7 +112,7 @@ X_test_scaled[continuous_features] = scaler.transform(X_test[continuous_features
 experiments = [
     {
         "name": "Experiment 1",
-        "purpose": "Baseline — shallow network (32 neurons), minimal regularisation",
+        "purpose": "Baseline - shallow network (32 neurons), minimal regularisation",
         "params": dict(
             hidden_layer_sizes=(32,),
             activation="relu",
@@ -125,7 +125,7 @@ experiments = [
     },
     {
         "name": "Experiment 2",
-        "purpose": "Strong regularisation — same architecture, alpha raised to 0.1",
+        "purpose": "Strong regularisation - same architecture, alpha raised to 0.1",
         "params": dict(
             hidden_layer_sizes=(32,),
             activation="relu",
@@ -138,7 +138,7 @@ experiments = [
     },
     {
         "name": "Experiment 3",
-        "purpose": "Deeper network — two hidden layers (64, 32), moderate regularisation",
+        "purpose": "Deeper network - two hidden layers (64, 32), moderate regularisation",
         "params": dict(
             hidden_layer_sizes=(64, 32),
             activation="relu",
@@ -176,7 +176,7 @@ for exp in experiments:
 
     model = MLPClassifier(**params)
 
-    # Cross-validation on training set only — test set not touched here
+    # Cross-validation on training set only - test set not touched here
     cv_scores = cross_val_score(
         model, X_train_scaled, y_train, cv=5, scoring="accuracy"
     )
@@ -243,7 +243,7 @@ for r in results:
 print(
     f"\n  {best_exp_name} is selected for testing: it achieved the highest mean "
     f"CV accuracy, indicating the best generalisation to unseen folds. "
-    f"The Train-CV gap column above shows how much each model overfit its training data — "
+    f"The Train-CV gap column above shows how much each model overfit its training data - "
     f"a smaller gap with a higher CV accuracy is the ideal combination."
 )
 print()
@@ -253,7 +253,7 @@ print()
 # interpretation of their performance, clearly separated from the training experiments."
 
 print("=" * 70)
-print(f"TESTING RESULTS — {best_exp_name} applied to held-out test set")
+print(f"TESTING RESULTS - {best_exp_name} applied to held-out test set")
 print("=" * 70)
 
 test_metrics = evaluate_model(best_model, X_test_scaled, y_test)

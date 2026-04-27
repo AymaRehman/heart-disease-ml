@@ -21,7 +21,7 @@ from sklearn.preprocessing import LabelEncoder
 #              (slope |r| = 0.321 < oldpeak |r| = 0.429); oldpeak retained
 #              as it is continuous and carries stronger predictive signal.
 #              Pairwise collinearity check also run (threshold |r| > 0.70):
-#              slope <-> oldpeak r = 0.527, below threshold — collinearity
+#              slope <-> oldpeak r = 0.527, below threshold - collinearity
 #              not the reason for removal.
 #              Threshold source: Collinearity: A review of methods to deal with it and a simulation study evaluating their performance
 #              Link to Article: https://www.researchgate.net/publication/224040384_Collinearity_A_review_of_methods_to_deal_with_it_and_a_simulation_study_evaluating_their_performance
