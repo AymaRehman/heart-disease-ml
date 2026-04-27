@@ -24,7 +24,11 @@ Built with Python (Scikit-Learn, Pandas, Seaborn)
 | Library | Purpose |
 | :--- | :--- |
 | **pandas** | Data loading, cleaning, duplicate removal, and structured output tables |
-| **scikit-learn** | Preprocessing, ANN implementation, and model evaluation |
+| **scikit-learn** | Preprocessing, train/test splitting, ANN, K-Means clustering, PCA, and model evaluation metrics |
+| **SciPy** | Hierarchical clustering (linkage, dendrogram, fcluster) |
+| **Matplotlib** | Plotting dendrograms, scatter plots, and clustering visualizations |
+| **Seaborn** | Statistical visualizations (correlation, distributions) |
+| **IPython** | Inline display of DataFrames in notebook output |
 
 ## Project Structure
 ```text
