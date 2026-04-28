@@ -1,10 +1,19 @@
+import os
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score, adjusted_rand_score
+from sklearn.metrics import silhouette_score, silhouette_samples, adjusted_rand_score
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
+
+
+# Output directory and consistent colour palette for all plots.
+OUTPUT_DIR = "outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+COLORS = ["#2a9d8f", "#c1121f"]
 
 
 # K-means clustering for the unsupervised learning part.
@@ -123,17 +132,18 @@ plt.figure(figsize=(8, 5))
 plt.plot(
     summary_df["n_clusters"],
     summary_df["Silhouette Score"],
-    marker="o"
+    marker="o",
+    color=COLORS[0],
 )
 plt.title("Silhouette Score for Different K Values")
 plt.xlabel("Number of clusters (k)")
 plt.ylabel("Silhouette Score")
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("kmeans_silhouette_scores.png", dpi=300)
+plt.savefig(f"{OUTPUT_DIR}/kmeans_silhouette_scores.png", dpi=300)
 plt.show()
 
-print("Silhouette plot saved as: kmeans_silhouette_scores.png")
+print(f"Silhouette plot saved as: {OUTPUT_DIR}/kmeans_silhouette_scores.png")
 print()
 
 
@@ -153,20 +163,17 @@ print()
 best_labels = best_model.predict(X_scaled)
 
 print("=" * 70)
-print(f"FINAL K-MEANS RESULTS — {best_exp_name}")
+print(f"FINAL K-MEANS RESULTS - {best_exp_name}")
 print("=" * 70)
 
-comparison_df = pd.DataFrame({
-    "Cluster": best_labels,
-    "Actual target": y
-})
+comparison_df = pd.DataFrame({"Cluster": best_labels, "Actual target": y})
 
 print("\n=== Cluster vs Actual Target Table ===")
 cluster_target_table = pd.crosstab(
     comparison_df["Cluster"],
     comparison_df["Actual target"],
     rownames=["Cluster"],
-    colnames=["Actual target"]
+    colnames=["Actual target"],
 )
 print(cluster_target_table.to_string())
 print()
@@ -176,15 +183,79 @@ print()
 pca = PCA(n_components=2, random_state=42)
 X_pca = pca.fit_transform(X_scaled)
 
-pca_df = pd.DataFrame({
-    "PC1": X_pca[:, 0],
-    "PC2": X_pca[:, 1],
-    "Cluster": best_labels,
-    "Actual target": y
-})
+pca_df = pd.DataFrame(
+    {"PC1": X_pca[:, 0], "PC2": X_pca[:, 1], "Cluster": best_labels, "Actual target": y}
+)
 
 print("=== PCA Representation Data Snapshot ===")
 print(pca_df.head().to_string(index=False))
+print()
+
+
+# Scatterplot of the best K-means clustering result.
+plt.figure(figsize=(8, 5))
+for cluster_id in sorted(pca_df["Cluster"].unique()):
+    subset = pca_df[pca_df["Cluster"] == cluster_id]
+    plt.scatter(
+        subset["PC1"],
+        subset["PC2"],
+        label=f"Cluster {cluster_id}",
+        color=COLORS[cluster_id % len(COLORS)],
+        s=30,
+    )
+plt.title(f"K-Means Clustering Result ({best_exp_name}, k={best_result['n_clusters']})")
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(f"{OUTPUT_DIR}/kmeans_best_clusters_scatter.png", dpi=300)
+plt.show()
+
+print(
+    f"Best cluster scatterplot saved as: {OUTPUT_DIR}/kmeans_best_clusters_scatter.png"
+)
+print()
+
+# Per-sample silhouette plot for the best k.
+sample_silhouette_values = silhouette_samples(X_scaled, best_labels)
+
+plt.figure(figsize=(8, 5))
+y_lower = 10
+for cluster_id in sorted(np.unique(best_labels)):
+    cluster_silhouettes = sample_silhouette_values[best_labels == cluster_id]
+    cluster_silhouettes.sort()
+    size = cluster_silhouettes.shape[0]
+    y_upper = y_lower + size
+    plt.fill_betweenx(
+        np.arange(y_lower, y_upper),
+        0,
+        cluster_silhouettes,
+        color=COLORS[cluster_id % len(COLORS)],
+        alpha=0.7,
+        label=f"Cluster {cluster_id}",
+    )
+    y_lower = y_upper + 10
+
+plt.axvline(
+    x=best_result["Silhouette Score"],
+    color="red",
+    linestyle="--",
+    label=f"Avg = {best_result['Silhouette Score']:.3f}",
+)
+plt.title(
+    f"Per-Sample Silhouette Plot ({best_exp_name}, k={best_result['n_clusters']})"
+)
+plt.xlabel("Silhouette coefficient")
+plt.ylabel("Sample index (grouped by cluster)")
+plt.legend()
+plt.tight_layout()
+plt.savefig(f"{OUTPUT_DIR}/kmeans_silhouette_per_sample.png", dpi=300)
+plt.show()
+
+print(
+    f"Per-sample silhouette plot saved as: {OUTPUT_DIR}/kmeans_silhouette_per_sample.png"
+)
 print()
 
 
