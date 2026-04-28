@@ -103,7 +103,11 @@ X_test_scaled[continuous_features] = scaler.transform(X_test[continuous_features
 #   interactions compared to the shallow baseline.
 
 # Shared across all 3:
-# solver=adam, learning_rate_init=0.001, max_iter=3000, random_state=42.
+# activation=relu, solver=adam, learning_rate_init=0.001, max_iter=3000, random_state=42.
+
+# relu controls which neurons deliver info and which stay silent,
+# learning rate is the pace at which the model learns,
+# Adam maintains understanding of context to adapt to situations dynamically
 
 # "Hyperparameter values used in the experiments with each of the
 # algorithms (in a table format) and screenshots showing these values and the
@@ -163,9 +167,9 @@ def evaluate_model(model, X, y):
     }
 
 
-print("=" * 70)
+print("======================================================================")
 print("PART III - ANN EXPERIMENTS (training data, 5-fold cross-validation)")
-print("=" * 70)
+print("======================================================================")
 
 results = []
 trained_models = {}
@@ -195,18 +199,22 @@ for exp in experiments:
         "max_iter": params["max_iter"],
         "CV Acc (mean)": round(cv_scores.mean(), 4),
         "CV Acc (std)": round(cv_scores.std(), 4),
-        **{f"Train {k}": v for k, v in train_metrics.items()},
     }
+
+    for key, value in train_metrics.items():
+        new_key = f"Train {key}"
+        result_row[new_key] = value
+
     results.append(result_row)
 
     print(f"\n=== {name} : {exp['purpose']} ===")
     print("Hyperparameters:")
-    for k, v in params.items():
-        print(f"  {k:25s}: {v}")
+    for key, value in params.items():
+        print(f"  {key:25s}: {value}")
     print(f"\nCV accuracy (5-fold) : {cv_scores.mean():.4f} ± {cv_scores.std():.4f}")
     print("Training-set metrics :")
-    for k, v in train_metrics.items():
-        print(f"  {k:12s}: {v:.4f}")
+    for key, value in train_metrics.items():
+        print(f"  {key:12s}: {value:.4f}")
 
 
 # Summary table (need to screenshot this for the report)
@@ -252,16 +260,16 @@ print()
 # "Results of the testing of the trained models and a comparison and
 # interpretation of their performance, clearly separated from the training experiments."
 
-print("=" * 70)
+print("======================================================================")
 print(f"TESTING RESULTS - {best_exp_name} applied to held-out test set")
-print("=" * 70)
+print("======================================================================")
 
 test_metrics = evaluate_model(best_model, X_test_scaled, y_test)
 y_pred_test = best_model.predict(X_test_scaled)
 
 print("\nTest-set performance metrics:")
-for k, v in test_metrics.items():
-    print(f"  {k:12s}: {v:.4f}")
+for key, value in test_metrics.items():
+    print(f"  {key:12s}: {value:.4f}")
 
 print("\nConfusion Matrix (rows = actual, cols = predicted):")
 cm = confusion_matrix(y_test, y_pred_test)
