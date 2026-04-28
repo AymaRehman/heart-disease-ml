@@ -3,7 +3,6 @@
 
 # Imports
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, dendrogram, fcluster
 from sklearn.preprocessing import MinMaxScaler
@@ -14,7 +13,7 @@ df = pd.read_csv("data/heart_cleaned.csv")
 print(" Dataset Info ")
 print(f"Total patients: {len(df)}")
 print(f"Features: {list(df.columns)}")
-print(f"Class distribution:")
+print("Class distribution:")
 print(df["target"].value_counts())
 
 # separating features from target
