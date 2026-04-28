@@ -4,29 +4,6 @@ from sklearn.preprocessing import LabelEncoder
 # Commenting so I know exactly what's going on in the code when I come back to it later.
 # Authored: @AymaRehman
 
-# Original Dataset Columns (14):
-# age, sex, cp(chest pain type), trestbps(resting blood pressure), chol, fbs(fasting blood sugar),
-# restecg(resting ecg results), thalach(maximum heart rate), exang(exercise-induced angina),
-# oldpeak(st depression induced by exercise), slope(the slope of the peak exercise ST segment),
-# ca(number of major vessels), thal(thalassemia), target(presence of heart disease)
-
-# Final cleaned dataset (10 features + target):
-# age, sex, cp, trestbps, chol, thalach, exang, oldpeak, ca, thal, target
-
-# Removed features (justified by correlation analysis run on clean data,
-# after duplicates and outliers have been removed):
-#   fbs      - binary (0/1), weakest absolute correlation with target (|r| = 0.026)
-#   restecg  - categorical (0/1/2), low predictive correlation with target (|r| = 0.183)
-#   slope    - weaker absolute correlation with target than oldpeak
-#              (slope |r| = 0.321 < oldpeak |r| = 0.429); oldpeak retained
-#              as it is continuous and carries stronger predictive signal.
-#              Pairwise collinearity check also run (threshold |r| > 0.70):
-#              slope <-> oldpeak r = 0.527, below threshold - collinearity
-#              not the reason for removal.
-#              Threshold source: Collinearity: A review of methods to deal with it and a simulation study evaluating their performance
-#              Link to Article: https://www.researchgate.net/publication/224040384_Collinearity_A_review_of_methods_to_deal_with_it_and_a_simulation_study_evaluating_their_performance
-
-
 df = pd.read_csv("data/heart.csv")
 
 # Confirm dataset is in a workable format (.csv)
@@ -140,31 +117,37 @@ for i in range(len(pairwise_corr.columns)):
         val = pairwise_corr.iloc[i, j]
         if val > CORRELATION_THRESHOLD:
             f1, f2 = pairwise_corr.columns[i], pairwise_corr.columns[j]
-            print(f"  {f1} <-> {f2}: r = {val:.3f}")
+            print(f"{f1} <-> {f2}: r = {val:.3f}")
             flagged = True
 if not flagged:
     print("None found above threshold.")
 
+# specifically hardcode slope oldpeak check (sanity check)
 slope_oldpeak_r = (
     pairwise_corr.loc["slope", "oldpeak"]
     if "slope" in pairwise_corr.columns and "oldpeak" in pairwise_corr.columns
     else None
 )
 if slope_oldpeak_r is not None:
-    print(f"\n  slope <-> oldpeak: r = {slope_oldpeak_r:.3f}")
+    print(f"\nslope <-> oldpeak: r = {slope_oldpeak_r:.3f}")
     if slope_oldpeak_r <= CORRELATION_THRESHOLD:
         print(
-            f"  NOTE: slope <-> oldpeak r = {slope_oldpeak_r:.3f} is below the {CORRELATION_THRESHOLD} threshold."
+            f"NOTE: slope <-> oldpeak r = {slope_oldpeak_r:.3f} is below the {CORRELATION_THRESHOLD} threshold."
         )
 
+# confirmed features so far to drop based on target correlation and collinearity checks
+# dropping these two due to weak abs correlation with target
 features_to_drop = ["fbs", "restecg"]
 
 print("\nJustification for dropping features:")
 for col in ["fbs", "restecg"]:
     print(
-        f"  {col}: Dropped due to weak absolute correlation with target (|r|={target_corr.get(col, 0):.3f})."
+        f"{col}: Dropped due to weak absolute correlation with target (|r|={target_corr.get(col, 0):.3f})."
     )
 
+# if slope and oldpeak are strongly correlated, drop the weaker of the two (slope) based on  r with target.
+# if slope and oldpeak are not strongly correlated, drop slope based on weaker r with target.
+# either way slope is dropped (just need to confirm the reason to drop it)
 if slope_oldpeak_r is not None and slope_oldpeak_r > CORRELATION_THRESHOLD:
     features_to_drop.append("slope")
     print(
@@ -184,11 +167,11 @@ else:
         print(
             "\nNOTE: slope NOT dropped. Collinearity is below threshold "
             "and target correlation is not weaker than oldpeak. Please review feature selection."
-        )
+        )  # won't happen but just in case
 
 print("\nFeatures to drop:")
 for col in features_to_drop:
-    print(f"  {col}: |r with target| = {target_corr.get(col, float('nan')):.3f}")
+    print(f"{col}: |r with target| = {target_corr.get(col, float('nan')):.3f}")
 print()
 
 
@@ -203,6 +186,8 @@ print("Full correlation matrix (continuous features):")
 print(final_corr.round(3).to_string())
 print()
 
+# Recheck if any pairs of continuous features in new cleaned data
+# are strongly correlated and drop the weaker of the two based on correlation with target.
 cols_to_drop = set()
 print(f"Pairs with |r| > {CORRELATION_THRESHOLD}:")
 found = False
@@ -226,6 +211,7 @@ if cols_to_drop:
 print()
 
 # "The number of data features (attributes) should be between 7 and 12."
+# In case of failure to meet this condition, all code execution below this point will be halted.
 feature_count = len([c for c in df.columns if c != "target"])
 assert 7 <= feature_count <= 12, (
     f"Feature count {feature_count} is outside the required 7–12 range. "
@@ -268,7 +254,7 @@ class_percents = df["target"].value_counts(normalize=True).sort_index() * 100
 for label in class_counts.index:
     meaning = "No disease" if label == 0 else "Disease present"
     print(
-        f"  Class {label} ({meaning}): {class_counts[label]} objects ({class_percents[label]:.1f}%)"
+        f"Class {label} ({meaning}): {class_counts[label]} objects ({class_percents[label]:.1f}%)"
     )
 print()
 
