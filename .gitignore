@@ -17,10 +17,6 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 
-# Data files
-*.csv
-*.xlsx
-
 # ML artifacts
 *.pkl
 *.joblib
