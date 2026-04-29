@@ -1,10 +1,9 @@
 import os
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score, silhouette_samples, adjusted_rand_score
+from sklearn.metrics import silhouette_score, adjusted_rand_score
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 
@@ -216,48 +215,6 @@ print(
     f"Best cluster scatterplot saved as: {OUTPUT_DIR}/kmeans_best_clusters_scatter.png"
 )
 print()
-
-# Per-sample silhouette plot for the best k.
-sample_silhouette_values = silhouette_samples(X_scaled, best_labels)
-
-plt.figure(figsize=(8, 5))
-y_lower = 10
-for cluster_id in sorted(np.unique(best_labels)):
-    cluster_silhouettes = sample_silhouette_values[best_labels == cluster_id]
-    cluster_silhouettes.sort()
-    size = cluster_silhouettes.shape[0]
-    y_upper = y_lower + size
-    plt.fill_betweenx(
-        np.arange(y_lower, y_upper),
-        0,
-        cluster_silhouettes,
-        color=COLORS[cluster_id % len(COLORS)],
-        alpha=0.7,
-        label=f"Cluster {cluster_id}",
-    )
-    y_lower = y_upper + 10
-
-plt.axvline(
-    x=best_result["Silhouette Score"],
-    color="red",
-    linestyle="--",
-    label=f"Avg = {best_result['Silhouette Score']:.3f}",
-)
-plt.title(
-    f"Per-Sample Silhouette Plot ({best_exp_name}, k={best_result['n_clusters']})"
-)
-plt.xlabel("Silhouette coefficient")
-plt.ylabel("Sample index (grouped by cluster)")
-plt.legend()
-plt.tight_layout()
-plt.savefig(f"{OUTPUT_DIR}/kmeans_silhouette_per_sample.png", dpi=300)
-plt.show()
-
-print(
-    f"Per-sample silhouette plot saved as: {OUTPUT_DIR}/kmeans_silhouette_per_sample.png"
-)
-print()
-
 
 print("=== Interpretation ===")
 print(
