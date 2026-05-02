@@ -42,7 +42,8 @@ heart-disease-ml/
 │   ├── Kmeans_clustering.py        # K-Means logic
 │   ├── hierarchical_clustering.py  # Hierarchical logic
 │   ├── ann_classification.py       # ANN implementation
-│   └── classification.py           # Comparison of supervised models
+│   ├── classification.py           # KNN and Decision Tree implementation
+│   └── comparison.py               # Comparison of supervised models
 ├── README.md
 ├── requirements.txt
 └── main.py                         # Entry point to run the full pipeline
@@ -77,12 +78,7 @@ Download the dataset from Kaggle, rename it to `heart.csv` and place it in the `
 > **Note:** We are using the Kaggle version as it is pre-formatted for Python.   
 > **Original Source:** [UCI Machine Learning Repository - Heart Disease](https://archive.ics.uci.edu/dataset/45/heart+disease)
 
-### 5. Run the preprocessing:
-```bash
-python src/preprocessing.py
-```
-
-### 6. Run the main analysis:
+### 5. Run the entire pipeline:
 ```bash
 python main.py
 ```
