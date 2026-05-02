@@ -8,7 +8,7 @@ Built with Python (Scikit-Learn, Pandas, Seaborn)
 
 | Name | Responsibilities | Files | Issues |
 | :--- | :--- | :--- | :--- |
-| **Ayma Rehman** | Data Preprocessing, ANN Implementation | `src/preprocessing.py`, `src/ann_classification.py`, `main.py` | `#1`, `#4` |
+| **Ayma Rehman** | Data Preprocessing, ANN Implementation | `src/preprocessing.py`, `src/ann_classification.py`, `src/comparison.py`, `main.py` | `#1`, `#4`, `#5` |
 | **Dhanusha Udhayakumar** | EDA and Statistical Visualizations | `notebooks/exploration.ipynb` | `#2` |
 | **Nandana Subhash** | Hierarchical Clustering Analysis | `src/hierarchical_clustering.py` | `#3` |
 | **Ruslan Mishura** | K-Means Clustering, Model Comparison | `src/Kmeans_clustering.py`, `src/classification.py` | `#5`, `#6` |
