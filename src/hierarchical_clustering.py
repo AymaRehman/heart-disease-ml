@@ -1,5 +1,5 @@
 # Hierarchical Clustering Analysis - Part II
-# Authored: @nandana-subhash
+
 
 # Imports
 import pandas as pd
