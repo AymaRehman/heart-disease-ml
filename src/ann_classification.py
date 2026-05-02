@@ -1,3 +1,4 @@
+import os
 import warnings
 
 import pandas as pd
@@ -25,6 +26,9 @@ from sklearn.preprocessing import MinMaxScaler
 # Input: heart_cleaned.csv produced by preprocessing.py (features selected in Part I).
 
 warnings.filterwarnings("ignore", category=ConvergenceWarning)
+
+OUTPUT_DIR = "outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 df = pd.read_csv("data/heart_cleaned.csv")
 
@@ -289,13 +293,31 @@ print(
     )
 )
 
+# Save best ANN test results to CSV so comparison.py can merge them
+# with the KNN and Decision Tree results from classification.py.
+ann_best_row = {
+    "Algorithm": "ANN",
+    "Best Experiment": best_exp_name,
+    "CV Accuracy Mean": best_result["CV Acc (mean)"],
+    "Test Accuracy": test_metrics["Accuracy"],
+    "Test Precision": test_metrics["Precision"],
+    "Test Recall": test_metrics["Recall"],
+    "Test F1": test_metrics["F1"],
+    "Hyperparameters": str(best_params),
+}
+
+ann_best_path = os.path.join(OUTPUT_DIR, "ann_best_test_results.csv")
+pd.DataFrame([ann_best_row]).to_csv(ann_best_path, index=False)
+print(f"\nBest ANN test results saved as: {ann_best_path}")
+print()
+
 # "Evaluate and compare the performance of the trained models."
-# Cross-algorithm comparison (ANN vs the two other classifiers) is in classification.py.
+# Cross-algorithm comparison (ANN vs the two other classifiers) is in comparison.py.
 print("=== Interpretation ===")
 print(
     f"The best ANN model ({best_exp_name}) achieved a test accuracy of "
     f"{test_metrics['Accuracy']:.4f} and F1-score of {test_metrics['F1']:.4f} "
     f"on the held-out test set.\n"
     f"These results will be compared against the two other classifiers "
-    f"in classification.py."
+    f"in comparison.py."
 )
