@@ -1,0 +1,4 @@
+Algorithm,Best Experiment,CV Accuracy Mean,Test Accuracy,Test Precision,Test Recall,Test F1,Hyperparameters
+ANN,Experiment 2,0.8239,0.8596,0.8696,0.8,0.8333,"{'hidden_layer_sizes': (32,), 'activation': 'relu', 'solver': 'adam', 'alpha': 0.1, 'learning_rate_init': 0.001, 'max_iter': 3000, 'random_state': 42}"
+KNN,KNN Experiment 3,0.8329,0.8246,0.8,0.8,0.8,"{'n_neighbors': 7, 'weights': 'distance', 'metric': 'minkowski'}"
+Decision Tree,Decision Tree Experiment 1,0.7757,0.7018,0.6667,0.64,0.6531,"{'criterion': 'gini', 'max_depth': 3, 'random_state': 42}"

@@ -1,0 +1,7 @@
+Algorithm,Experiment,Purpose,CV Accuracy Mean,CV Accuracy Std,Train Accuracy,Train Precision,Train Recall,Train F1,Hyperparameters
+KNN,KNN Experiment 1,"Small neighbourhood, more sensitive to local patterns",0.8018,0.0367,0.8987,0.9149,0.8515,0.8821,"{'n_neighbors': 3, 'weights': 'uniform', 'metric': 'minkowski'}"
+KNN,KNN Experiment 2,"Medium neighbourhood, balanced baseline",0.8194,0.0255,0.8634,0.8723,0.8119,0.841,"{'n_neighbors': 5, 'weights': 'uniform', 'metric': 'minkowski'}"
+KNN,KNN Experiment 3,"Larger neighbourhood, smoother decision boundary",0.8329,0.0374,1.0,1.0,1.0,1.0,"{'n_neighbors': 7, 'weights': 'distance', 'metric': 'minkowski'}"
+Decision Tree,Decision Tree Experiment 1,Shallow tree to reduce overfitting,0.7757,0.0899,0.8811,0.9302,0.7921,0.8556,"{'criterion': 'gini', 'max_depth': 3, 'random_state': 42}"
+Decision Tree,Decision Tree Experiment 2,Medium depth tree for more detailed decision rules,0.7407,0.0885,0.9295,0.9885,0.8515,0.9149,"{'criterion': 'gini', 'max_depth': 5, 'random_state': 42}"
+Decision Tree,Decision Tree Experiment 3,Entropy criterion with medium depth,0.7537,0.0526,0.9251,0.9468,0.8812,0.9128,"{'criterion': 'entropy', 'max_depth': 5, 'random_state': 42}"

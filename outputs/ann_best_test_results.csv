@@ -1,0 +1,2 @@
+Algorithm,Best Experiment,CV Accuracy Mean,Test Accuracy,Test Precision,Test Recall,Test F1,Hyperparameters
+ANN,Experiment 2,0.8239,0.8596,0.8696,0.8,0.8333,"{'hidden_layer_sizes': (32,), 'activation': 'relu', 'solver': 'adam', 'alpha': 0.1, 'learning_rate_init': 0.001, 'max_iter': 3000, 'random_state': 42}"
